@@ -262,7 +262,6 @@
                 return `
                 <li class="module-item ${mod.id === currentModule ? 'active' : ''}" onclick="selectModule(${mod.id})">
                     Módulo ${mod.id} - ${titlePart}
-                    <span>${mod.videos.length} videos</span>
                 </li>
             `;
             }).join('');
