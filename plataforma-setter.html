@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Plataforma de Aprendizaje - Closer de Ventas</title>
+    <title>Plataforma de Aprendizaje - Setter de Ventas</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
@@ -71,7 +71,7 @@
     <div id="mainApp" style="display: none;">
         <header>
             <div class="container">
-                <h1>🎓 Closer de Ventas</h1>
+                <h1>🎓 Setter de Ventas</h1>
                 <div class="user-info">
                     <span id="userEmail"></span>
                     <button class="logout-btn" onclick="handleLogout()">Cerrar Sesión</button>
@@ -116,8 +116,8 @@
         const modules = [
             {
                 id: 1,
-                title: "Módulo 1 - Mentalidad",
-                description: "Desarrollá la base mental correcta para sostener el proceso",
+                title: "Módulo 1 - Fundamentos del Appointment Setter",
+                description: "Aprende los fundamentos esenciales para ser un Setter efectivo",
                 videos: [
                     { id: 1, title: "Video 1", youtubeId: "f01IpPc95_8" },
                     { id: 2, title: "Video 2", youtubeId: "FmbJ68-WPbY" }
@@ -125,8 +125,8 @@
             },
             {
                 id: 2,
-                title: "Módulo 2 - Psicología AV",
-                description: "Entendé cómo piensa un prospecto",
+                title: "Módulo 2 - Prospección y Prospectos High Ticket",
+                description: "Identifica y califica prospectos de alto valor",
                 videos: [
                     { id: 1, title: "Video 1", youtubeId: "OvudxqMer88" },
                     { id: 2, title: "Video 2", youtubeId: "L4WsSR9ZSBI" }
@@ -134,8 +134,8 @@
             },
             {
                 id: 3,
-                title: "Módulo 3 - Estructura de venta",
-                description: "Aprendé a ordenar una llamada de venta",
+                title: "Módulo 3 - LinkedIn y Sales Navigator",
+                description: "Domina LinkedIn como herramienta de prospección",
                 videos: [
                     { id: 1, title: "Video 1", youtubeId: "kEgfy-2UfWA" },
                     { id: 2, title: "Video 2", youtubeId: "yPOnx3kooE0" }
@@ -143,8 +143,8 @@
             },
             {
                 id: 4,
-                title: "Módulo 4 - Guiones de Venta",
-                description: "Usá guiones como apoyo para tener claridad",
+                title: "Módulo 4 - Inicio de Conversaciones y Mensaje de Conexión",
+                description: "Crea mensajes que generen respuestas",
                 videos: [
                     { id: 1, title: "Video 1", youtubeId: "X65txfCn-c0" },
                     { id: 2, title: "Video 2", youtubeId: "WokQhjQ2Guo" }
@@ -152,8 +152,8 @@
             },
             {
                 id: 5,
-                title: "Módulo 5 - Rebatir Objeciones",
-                description: "Respondé dudas y resistencias del prospecto",
+                title: "Módulo 5 - Transición y Detección de Ineficiencias",
+                description: "Detecta problemas y necesidades del prospecto",
                 videos: [
                     { id: 1, title: "Video 1", youtubeId: "VY4QDdJFa6o" },
                     { id: 2, title: "Video 2", youtubeId: "FNRVykoMPf4" }
@@ -161,8 +161,8 @@
             },
             {
                 id: 6,
-                title: "Módulo 6 - Cómo Encontrar Socios",
-                description: "Aprendé a acercarte a empresas y alianzas",
+                title: "Módulo 6 - Mensaje de Valor, Oferta y Aplicación por Nicho",
+                description: "Posiciona tu valor y cierra citas",
                 videos: [
                     { id: 1, title: "Video 1", youtubeId: "-FJ_jZJ20V0" },
                     { id: 2, title: "Video 2", youtubeId: "_8QWFkDnqUQ" }
@@ -170,8 +170,8 @@
             },
             {
                 id: 7,
-                title: "Módulo 7 - Ingresos de 6 Cifras",
-                description: "La lógica y estructura para construir un camino serio",
+                title: "Módulo 7 - Objeciones, Seguimiento y Agenda a Llamada",
+                description: "Maneja objeciones y asegura la cita",
                 videos: [
                     { id: 1, title: "Video 1", youtubeId: "atBqxrtQJnY" },
                     { id: 2, title: "Video 2", youtubeId: "bHvTwN3NLYw" }
@@ -179,8 +179,8 @@
             },
             {
                 id: 8,
-                title: "Módulo 8 - 7 Errores Mortales",
-                description: "Detectá y evitá los errores más comunes",
+                title: "Módulo 8 - Convertite en un experto en ManyChat",
+                description: "Automatiza tu prospección con ManyChat",
                 videos: [
                     { id: 1, title: "Video 1", youtubeId: "Z074SbbCxUA" }
                 ]
@@ -233,6 +233,16 @@
 
                 if (data.result?.data?.success) {
                     const user = data.result.data.user;
+                    
+                    // Verify user has access to Setter course
+                    if (user.courseType !== 'setter') {
+                        errorMsg.textContent = "No tienes acceso a la formación Setter";
+                        errorMsg.style.display = 'block';
+                        loginBtn.disabled = false;
+                        loginBtn.textContent = "Ingresar";
+                        return;
+                    }
+                    
                     currentUser = {
                         id: user.id,
                         email: user.email,
