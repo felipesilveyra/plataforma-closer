@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formación Setter ManyChat - Edúcate Online</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,800;0,900;1,700;1,800&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #9d4edd;
+            --dark: #0d0d0d;
+            --light: #faf9f7;
+            --border: #e8e8e8;
+            --text-muted: #888;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        .container {
+            display: flex;
+            height: 100vh;
+        }
+
+        /* SIDEBAR */
+        .sidebar {
+            width: 280px;
+            background: var(--dark);
+            color: white;
+            padding: 24px;
+            overflow-y: auto;
+            border-right: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .sidebar-header {
+            margin-bottom: 32px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .sidebar-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .sidebar-subtitle {
+            font-size: 12px;
+            color: rgba(255,255,255,0.6);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .modules-list {
+            list-style: none;
+        }
+
+        .module-item {
+            padding: 12px 16px;
+            margin-bottom: 8px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 13px;
+            border-left: 3px solid transparent;
+        }
+
+        .module-item:hover {
+            background: rgba(255,255,255,0.1);
+        }
+
+        .module-item.active {
+            background: var(--primary);
+            border-left-color: white;
+            font-weight: 600;
+        }
+
+        /* MAIN CONTENT */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            background: white;
+            padding: 20px 32px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .logout-btn {
+            padding: 8px 16px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .logout-btn:hover {
+            opacity: 0.9;
+        }
+
+        .content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 32px;
+        }
+
+        .module-header {
+            margin-bottom: 32px;
+        }
+
+        .module-number {
+            font-family: 'DM Mono', monospace;
+            font-size: 12px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            margin-bottom: 8px;
+        }
+
+        .module-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 4px;
+            background: var(--border);
+            border-radius: 2px;
+            overflow: hidden;
+            margin-bottom: 8px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--primary);
+            transition: width 0.3s ease;
+        }
+
+        .progress-text {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .videos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 24px;
+            margin-top: 32px;
+        }
+
+        .video-card {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .video-card:hover {
+            box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+        }
+
+        .video-placeholder {
+            width: 100%;
+            height: 180px;
+            background: linear-gradient(135deg, #f0f0f0 0%, #e8e8e8 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            color: #ccc;
+        }
+
+        .video-info {
+            padding: 16px;
+        }
+
+        .video-title {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .video-status {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-bottom: 12px;
+        }
+
+        .watch-btn {
+            width: 100%;
+            padding: 10px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            transition: opacity 0.3s ease;
+        }
+
+        .watch-btn:hover {
+            opacity: 0.9;
+        }
+
+        .watch-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* LOGIN SCREEN */
+        .login-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background: var(--light);
+        }
+
+        .login-box {
+            background: white;
+            padding: 48px;
+            border-radius: 8px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .login-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            text-align: center;
+        }
+
+        .login-subtitle {
+            font-size: 14px;
+            color: var(--text-muted);
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            font-size: 14px;
+            font-family: 'DM Sans', sans-serif;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(157,78,221,0.1);
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 12px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: opacity 0.3s ease;
+        }
+
+        .login-btn:hover {
+            opacity: 0.9;
+        }
+
+        .error-message {
+            color: #dc3545;
+            font-size: 13px;
+            margin-top: 8px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+                max-height: 180px;
+                overflow-x: auto;
+            }
+
+            .modules-list {
+                display: flex;
+                gap: 8px;
+            }
+
+            .module-item {
+                white-space: nowrap;
+            }
+
+            .content {
+                padding: 16px;
+            }
+
+            .videos-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- LOGIN SCREEN -->
+    <div id="loginScreen" class="login-container">
+        <div class="login-box">
+            <h1 class="login-title">🤖 Setter ManyChat</h1>
+            <p class="login-subtitle">Accede a tu formación</p>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label class="form-label">Email</label>
+                    <input type="email" id="emailInput" class="form-input" placeholder="tu@email.com" required>
+                </div>
+                <button type="submit" class="login-btn">Acceder</button>
+                <div id="loginMessage"></div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MAIN APP -->
+    <div id="appScreen" class="container" style="display: none;">
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-title">🤖 Setter</div>
+                <div class="sidebar-subtitle">Tu formación</div>
+            </div>
+            <ul class="modules-list" id="modulesList"></ul>
+        </div>
+
+        <div class="main-content">
+            <div class="header">
+                <div class="header-title" id="headerTitle">Módulo 1</div>
+                <button class="logout-btn" onclick="logout()">Cerrar sesión</button>
+            </div>
+
+            <div class="content" id="contentArea"></div>
+        </div>
+    </div>
+
+    <script>
+        // MÓDULOS - SOLO SETTER (SIN VIDEOS POR AHORA)
+        const modules = [
+            {
+                id: 1,
+                title: "Fundamentos del Appointment Setter",
+                videos: []
+            },
+            {
+                id: 2,
+                title: "Prospección y Prospectos High Ticket",
+                videos: []
+            },
+            {
+                id: 3,
+                title: "LinkedIn y Sales Navigator",
+                videos: []
+            },
+            {
+                id: 4,
+                title: "Inicio de Conversaciones y Mensaje de Conexión",
+                videos: []
+            },
+            {
+                id: 5,
+                title: "Transición y Detección de Ineficiencias",
+                videos: []
+            },
+            {
+                id: 6,
+                title: "Mensaje de Valor, Oferta y Aplicación por Nicho",
+                videos: []
+            },
+            {
+                id: 7,
+                title: "Objeciones, Seguimiento y Agenda a Llamada",
+                videos: []
+            },
+            {
+                id: 8,
+                title: "Convertite en experto en ManyChat",
+                videos: []
+            }
+        ];
+
+        let currentUser = null;
+        let userProgress = {};
+
+        function init() {
+            const user = localStorage.getItem('currentUser_setter');
+            if (user) {
+                currentUser = user;
+                userProgress = JSON.parse(localStorage.getItem(`progress_setter_${user}`) || '{}');
+                showApp();
+            } else {
+                showLogin();
+            }
+        }
+
+        function showLogin() {
+            document.getElementById('loginScreen').style.display = 'flex';
+            document.getElementById('appScreen').style.display = 'none';
+        }
+
+        function showApp() {
+            document.getElementById('loginScreen').style.display = 'none';
+            document.getElementById('appScreen').style.display = 'flex';
+            renderModules();
+            selectModule(1);
+        }
+
+        document.getElementById('loginForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = document.getElementById('emailInput').value.trim();
+            const messageDiv = document.getElementById('loginMessage');
+
+            if (!email) {
+                messageDiv.innerHTML = '<div class="error-message">Por favor ingresa tu email</div>';
+                return;
+            }
+
+            localStorage.setItem('currentUser_setter', email);
+            currentUser = email;
+            userProgress = JSON.parse(localStorage.getItem(`progress_setter_${email}`) || '{}');
+            showApp();
+        });
+
+        function renderModules() {
+            const modulesList = document.getElementById('modulesList');
+            modulesList.innerHTML = '';
+
+            modules.forEach(mod => {
+                const li = document.createElement('li');
+                li.className = 'module-item';
+                li.textContent = `Módulo ${mod.id} - ${mod.title}`;
+                li.onclick = () => selectModule(mod.id);
+                modulesList.appendChild(li);
+            });
+
+            updateActiveModule();
+        }
+
+        function selectModule(moduleId) {
+            const module = modules.find(m => m.id === moduleId);
+            if (!module) return;
+
+            document.getElementById('headerTitle').textContent = `Módulo ${module.id} - ${module.title}`;
+
+            const contentArea = document.getElementById('contentArea');
+            contentArea.innerHTML = '';
+
+            const header = document.createElement('div');
+            header.className = 'module-header';
+            header.innerHTML = `
+                <div class="module-number">Módulo ${module.id}</div>
+                <h1 class="module-title">${module.title}</h1>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: ${calculateProgress(moduleId)}%"></div>
+                </div>
+                <div class="progress-text">${countWatchedVideos(moduleId)} de ${module.videos.length} videos completados</div>
+            `;
+            contentArea.appendChild(header);
+
+            if (module.videos.length === 0) {
+                const placeholder = document.createElement('div');
+                placeholder.style.cssText = 'text-align: center; padding: 60px 20px; color: #888;';
+                placeholder.innerHTML = '<p style="font-size: 16px;">Los videos de este módulo estarán disponibles pronto 🎬</p>';
+                contentArea.appendChild(placeholder);
+            } else {
+                const videosGrid = document.createElement('div');
+                videosGrid.className = 'videos-grid';
+
+                module.videos.forEach((video, idx) => {
+                    const card = document.createElement('div');
+                    card.className = 'video-card';
+
+                    const isWatched = userProgress[`${moduleId}_${idx}`];
+
+                    card.innerHTML = `
+                        <div class="video-placeholder">▶️</div>
+                        <div class="video-info">
+                            <div class="video-title">${video.title}</div>
+                            <div class="video-status">${isWatched ? '✅ Completado' : '⏳ Pendiente'}</div>
+                            <button 
+                                class="watch-btn" 
+                                onclick="watchVideo(${moduleId}, ${idx})"
+                            >
+                                ${isWatched ? 'Ver de nuevo' : 'Ver video'}
+                            </button>
+                        </div>
+                    `;
+                    videosGrid.appendChild(card);
+                });
+
+                contentArea.appendChild(videosGrid);
+            }
+
+            updateActiveModule();
+        }
+
+        function watchVideo(moduleId, videoIdx) {
+            const module = modules.find(m => m.id === moduleId);
+            const video = module.videos[videoIdx];
+
+            userProgress[`${moduleId}_${videoIdx}`] = true;
+            localStorage.setItem(`progress_setter_${currentUser}`, JSON.stringify(userProgress));
+
+            window.open(video.link, '_blank');
+            selectModule(moduleId);
+        }
+
+        function logout() {
+            localStorage.removeItem('currentUser_setter');
+            currentUser = null;
+            document.getElementById('emailInput').value = '';
+            showLogin();
+        }
+
+        function updateActiveModule() {
+            document.querySelectorAll('.module-item').forEach((item, idx) => {
+                item.classList.remove('active');
+                if (modules[idx] && modules[idx].id === parseInt(document.getElementById('headerTitle').textContent.split(' ')[1])) {
+                    item.classList.add('active');
+                }
+            });
+        }
+
+        function calculateProgress(moduleId) {
+            const module = modules.find(m => m.id === moduleId);
+            if (!module.videos.length) return 0;
+
+            let watched = 0;
+            module.videos.forEach((_, idx) => {
+                if (userProgress[`${moduleId}_${idx}`]) watched++;
+            });
+
+            return (watched / module.videos.length) * 100;
+        }
+
+        function countWatchedVideos(moduleId) {
+            const module = modules.find(m => m.id === moduleId);
+            let count = 0;
+            module.videos.forEach((_, idx) => {
+                if (userProgress[`${moduleId}_${idx}`]) count++;
+            });
+            return count;
+        }
+
+        init();
+    </script>
+</body>
+</html>
