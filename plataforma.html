@@ -257,12 +257,15 @@
 
         function renderModules() {
             const moduleList = document.getElementById('moduleList');
-            moduleList.innerHTML = modules.map(mod => `
+            moduleList.innerHTML = modules.map(mod => {
+                const titlePart = mod.title.split(' - ')[1];
+                return `
                 <li class="module-item ${mod.id === currentModule ? 'active' : ''}" onclick="selectModule(${mod.id})">
-                    Módulo ${mod.id}
+                    Módulo ${mod.id} - ${titlePart}
                     <span>${mod.videos.length} videos</span>
                 </li>
-            `).join('');
+            `;
+            }).join('');
         }
 
         function selectModule(moduleId) {
